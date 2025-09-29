@@ -8,11 +8,11 @@ export default function Footer() {
     <Stack direction="row" sx={{ alignItems: 'center', justifyContent: 'space-between', p: '24px 16px 0px', mt: 'auto' }}>
       <Typography variant="caption">
         &copy; All rights reserved{' '}
-        <Link href="https://codedthemes.com/" target="_blank" underline="hover">
-          CodedThemes
+        <Link href="#" target="_blank" underline="hover">
+          Inspired IT
         </Link>
       </Typography>
-      <Stack direction="row" sx={{ gap: 1.5, alignItems: 'center', justifyContent: 'space-between' }}>
+      {/* <Stack direction="row" sx={{ gap: 1.5, alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="https://codedthemes.com/about-us/" target="_blank" variant="caption" color="text.primary">
           About us
         </Link>
@@ -22,7 +22,7 @@ export default function Footer() {
         <Link href="https://mui.com/store/terms/" target="_blank" variant="caption" color="text.primary">
           Terms
         </Link>
-      </Stack>
+      </Stack> */}
     </Stack>
   );
 }

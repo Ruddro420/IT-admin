@@ -10,26 +10,26 @@ const icons = {
 // ==============================|| MENU ITEMS - EXTRA PAGES ||============================== //
 
 const pages = {
-  id: 'authentication',
-  title: 'Authentication',
+  id: 'course',
+  title: 'Course Details',
   type: 'group',
   children: [
     {
-      id: 'login1',
-      title: 'Login',
+      id: 'courseName',
+      title: 'Course Name',
       type: 'item',
-      url: '/login',
+      url: '/dashboard/courseName',
       icon: icons.LoginOutlined,
-      target: true
+      target: false
     },
-    {
-      id: 'register1',
-      title: 'Register',
-      type: 'item',
-      url: '/register',
-      icon: icons.ProfileOutlined,
-      target: true
-    }
+    // {
+    //   id: 'register1',
+    //   title: 'Register',
+    //   type: 'item',
+    //   url: '/register',
+    //   icon: icons.ProfileOutlined,
+    //   target: true
+    // }
   ]
 };
 

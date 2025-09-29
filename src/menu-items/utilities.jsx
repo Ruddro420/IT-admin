@@ -21,31 +21,31 @@ const icons = {
 // ==============================|| MENU ITEMS - UTILITIES ||============================== //
 
 const utilities = {
-  id: 'utilities',
-  title: 'Utilities',
+  id: 'Users',
+  title: 'Users Details',
   type: 'group',
   children: [
     {
-      id: 'util-typography',
-      title: 'Typography',
+      id: 'users-details',
+      title: 'Users Details',
       type: 'item',
-      url: '/typography',
+      url: '/dashboard/userDetails',
       icon: icons.FontSizeOutlined
     },
-    {
-      id: 'util-color',
-      title: 'Color',
-      type: 'item',
-      url: '/color',
-      icon: icons.BgColorsOutlined
-    },
-    {
-      id: 'util-shadow',
-      title: 'Shadow',
-      type: 'item',
-      url: '/shadow',
-      icon: icons.BarcodeOutlined
-    }
+    // {
+    //   id: 'util-color',
+    //   title: 'Color',
+    //   type: 'item',
+    //   url: '/color',
+    //   icon: icons.BgColorsOutlined
+    // },
+    // {
+    //   id: 'util-shadow',
+    //   title: 'Shadow',
+    //   type: 'item',
+    //   url: '/shadow',
+    //   icon: icons.BarcodeOutlined
+    // }
   ]
 };
 

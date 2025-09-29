@@ -58,16 +58,16 @@ export default function DashboardDefault() {
         <Typography variant="h5">Dashboard</Typography>
       </Grid>
       <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <AnalyticEcommerce title="Total Page Views" count="4,42,236" percentage={59.3} extra="35,000" />
+        <AnalyticEcommerce title="Total Admission" count="4,42,236" percentage={59.3} extra="35,000" />
       </Grid>
       <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <AnalyticEcommerce title="Total Users" count="78,250" percentage={70.5} extra="8,900" />
+        <AnalyticEcommerce title="Total Visitors" count="78,250" percentage={70.5} extra="8,900" />
       </Grid>
       <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <AnalyticEcommerce title="Total Order" count="18,800" percentage={27.4} isLoss color="warning" extra="1,943" />
+        <AnalyticEcommerce title="Total Fees" count="18,800" percentage={27.4} isLoss color="warning" extra="1,943" />
       </Grid>
       <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <AnalyticEcommerce title="Total Sales" count="35,078" percentage={27.4} isLoss color="warning" extra="20,395" />
+        <AnalyticEcommerce title="Total Due" count="35,078" percentage={27.4} isLoss color="warning" extra="20,395" />
       </Grid>
       <Grid sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} size={{ md: 8 }} />
       {/* row 2 */}
@@ -94,7 +94,7 @@ export default function DashboardDefault() {
         </MainCard>
       </Grid>
       {/* row 3 */}
-      <Grid size={{ xs: 12, md: 7, lg: 8 }}>
+      {/* <Grid size={{ xs: 12, md: 7, lg: 8 }}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid>
             <Typography variant="h5">Recent Orders</Typography>
@@ -104,8 +104,8 @@ export default function DashboardDefault() {
         <MainCard sx={{ mt: 2 }} content={false}>
           <OrdersTable />
         </MainCard>
-      </Grid>
-      <Grid size={{ xs: 12, md: 5, lg: 4 }}>
+      </Grid> */}
+      {/* <Grid size={{ xs: 12, md: 5, lg: 4 }}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid>
             <Typography variant="h5">Analytics Report</Typography>
@@ -129,9 +129,9 @@ export default function DashboardDefault() {
           </List>
           <ReportAreaChart />
         </MainCard>
-      </Grid>
+      </Grid> */}
       {/* row 4 */}
-      <Grid size={{ xs: 12, md: 7, lg: 8 }}>
+      {/* <Grid size={{ xs: 12, md: 7, lg: 8 }}>
         <SaleReportCard />
       </Grid>
       <Grid size={{ xs: 12, md: 5, lg: 4 }}>
@@ -246,7 +246,7 @@ export default function DashboardDefault() {
             </Button>
           </Stack>
         </MainCard>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }
