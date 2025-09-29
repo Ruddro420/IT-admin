@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 // material-ui
 import Button from '@mui/material/Button';
@@ -26,6 +26,7 @@ import AnimateButton from 'components/@extended/AnimateButton';
 // assets
 import EyeOutlined from '@ant-design/icons/EyeOutlined';
 import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
+import toast from 'react-hot-toast';
 
 // ============================|| JWT - LOGIN ||============================ //
 
@@ -40,12 +41,20 @@ export default function AuthLogin({ isDemo = false }) {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const navigate = useNavigate()
+  // login
+  const loginHandler = () => {
+    toast.success('Login Successfully')
+    setTimeout(() => {
+      navigate('/')
+    }, 3000)
+  }
 
   return (
     <>
       <Formik
         initialValues={{
-          email: 'info@codedthemes.com',
+          email: 'admin@gmail.com',
           password: '123456',
           submit: null
         }}
@@ -115,7 +124,7 @@ export default function AuthLogin({ isDemo = false }) {
                   </FormHelperText>
                 )}
               </Grid>
-              <Grid sx={{ mt: -1 }} size={12}>
+              {/* <Grid sx={{ mt: -1 }} size={12}>
                 <Stack direction="row" sx={{ gap: 2, alignItems: 'baseline', justifyContent: 'space-between' }}>
                   <FormControlLabel
                     control={
@@ -133,10 +142,12 @@ export default function AuthLogin({ isDemo = false }) {
                     Forgot Password?
                   </Link>
                 </Stack>
-              </Grid>
+              </Grid> */}
               <Grid size={12}>
                 <AnimateButton>
-                  <Button fullWidth size="large" variant="contained" color="primary">
+                  <Button
+                    onClick={loginHandler}
+                    fullWidth size="large" variant="contained" color="primary">
                     Login
                   </Button>
                 </AnimateButton>

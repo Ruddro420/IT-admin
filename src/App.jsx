@@ -5,6 +5,7 @@ import router from 'routes';
 import ThemeCustomization from 'themes';
 
 import ScrollTop from 'components/ScrollTop';
+import { Toaster } from 'react-hot-toast';
 
 // ==============================|| APP - THEME, ROUTER, LOCAL ||============================== //
 
@@ -13,6 +14,7 @@ export default function App() {
     <ThemeCustomization>
       <ScrollTop>
         <RouterProvider router={router} />
+        <Toaster />
       </ScrollTop>
     </ThemeCustomization>
   );
