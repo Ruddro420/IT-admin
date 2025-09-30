@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
 // material-ui
 import List from '@mui/material/List';
@@ -42,7 +43,10 @@ export default function ProfileTab() {
         </ListItemIcon>
         <ListItemText primary="Billing" />
       </ListItemButton>
-      <ListItemButton>
+      <ListItemButton onClick={() => {
+        localStorage.removeItem('user');
+        window.location.reload();
+      }}>
         <ListItemIcon>
           <LogoutOutlined />
         </ListItemIcon>

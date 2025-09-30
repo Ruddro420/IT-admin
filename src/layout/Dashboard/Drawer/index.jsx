@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 
@@ -23,7 +24,7 @@ export default function MainDrawer({ window }) {
   // responsive drawer container
   const container = window !== undefined ? () => window().document.body : undefined;
 
-  // header content
+  // header contentDrawerContent
   const drawerContent = useMemo(() => <DrawerContent />, []);
   const drawerHeader = useMemo(() => <DrawerHeader open={drawerOpen} />, [drawerOpen]);
 

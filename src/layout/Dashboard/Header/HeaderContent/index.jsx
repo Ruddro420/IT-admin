@@ -1,10 +1,13 @@
-// material-ui
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-unused-vars */
+/* eslint-disable prettier/prettier */
+
 import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 
-// project imports
+
 import Search from './Search';
 import Profile from './Profile';
 import Notification from './Notification';
@@ -34,7 +37,7 @@ export default function HeaderContent() {
         <GithubOutlined />
       </IconButton> */}
 
-      <Notification />
+      {/* <Notification /> */}
       {!downLG && <Profile />}
       {downLG && <MobileSection />}
     </>

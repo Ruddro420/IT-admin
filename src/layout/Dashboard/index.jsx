@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -13,6 +14,7 @@ import Loader from 'components/Loader';
 import Breadcrumbs from 'components/@extended/Breadcrumbs';
 
 import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
+
 
 // ==============================|| MAIN LAYOUT ||============================== //
 

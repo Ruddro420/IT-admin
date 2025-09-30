@@ -1,7 +1,11 @@
-import React from "react";
+/* eslint-disable prettier/prettier */
+import { useParams } from "react-router";
 
 const StudentProfile = ({ student }) => {
   // Example student data if not passed as prop
+  const{id}=useParams();
+  console.log(id);
+
   student = student || {
     id: "STU-001",
     name: "John Doe",

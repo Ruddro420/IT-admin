@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { useMemo } from 'react';
 
 // material-ui

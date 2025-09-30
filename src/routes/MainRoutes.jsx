@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { lazy } from 'react';
 
 // project imports
@@ -11,6 +12,7 @@ import Fees from '../pages/Fees';
 import CourseName from '../pages/CourseName';
 import UserDetails from '../pages/UserDetails';
 import Support from '../pages/Support';
+import Privateroute from '../layout/Auth/Privateroute';
 
 // render- Dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard/default')));
@@ -27,7 +29,11 @@ const SamplePage = Loadable(lazy(() => import('pages/extra-pages/sample-page')))
 
 const MainRoutes = {
   path: '/',
-  element: <DashboardLayout />,
+  element: (
+    <Privateroute>
+      <DashboardLayout />
+    </Privateroute>
+  ),
   children: [
     {
       path: '/',
@@ -53,7 +59,7 @@ const MainRoutes = {
           element: <StudentDetails />
         },
         {
-          path: 'sprofile',
+          path: 'sprofile/:id',
           element: <StudentProfile />
         },
         {
@@ -71,7 +77,7 @@ const MainRoutes = {
         {
           path: 'support',
           element: <Support />
-        },
+        }
       ]
     },
 
