@@ -34,9 +34,6 @@ const UserDetails = () => {
 
   // Add or Update User
   const handleAddUser = () => {
-
-    console.log(newUser);
-    
     if (editingId) {
       // Update user
       fetch(`${baseUrl}/users/${editingId}`, {
