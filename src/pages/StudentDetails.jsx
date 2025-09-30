@@ -244,13 +244,13 @@ const StudentDetails = () => {
           <div className="flex gap-2">
             <button
               onClick={handleFilter}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg"
+              className="px-4 py-2 bg-indigo-600 text-white rounded-lg cursor-pointer"
             >
               Filter
             </button>
             <button
               onClick={handleReset}
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg"
+              className="px-4 py-2 bg-gray-500 text-white rounded-lg cursor-pointer"
             >
               Reset
             </button>
