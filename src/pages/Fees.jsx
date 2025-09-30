@@ -388,8 +388,8 @@ const Fees = () => {
               >
                 <option value="cash">Cash</option>
                 <option value="bkash">Bkash</option>
-                <option value="card">Card</option>
-                <option value="bank">Bank Transfer</option>
+                <option value="nagad">Nagad</option>
+                <option value="others">Others</option>
               </select>
               <div className="flex gap-2">
                 <button
