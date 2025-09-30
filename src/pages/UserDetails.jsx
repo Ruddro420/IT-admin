@@ -220,7 +220,7 @@ const UserDetails = () => {
               <th className="px-4 py-3 border text-left">ID</th>
               <th className="px-4 py-3 border text-left">Name</th>
               <th className="px-4 py-3 border text-left">Email</th>
-              <th className="px-4 py-3 border text-left">Password</th>
+              {/* <th className="px-4 py-3 border text-left">Password</th> */}
               <th className="px-4 py-3 border text-left">Role</th>
               <th className="px-4 py-3 border text-left">Actions</th>
             </tr>
@@ -231,7 +231,7 @@ const UserDetails = () => {
                 <td className="px-4 py-3 border">{user.id}</td>
                 <td className="px-4 py-3 border">{user.name}</td>
                 <td className="px-4 py-3 border">{user.email}</td>
-                <td className="px-4 py-3 border">{user.password}</td>
+                {/* <td className="px-4 py-3 border">{user.password}</td> */}
                 <td className="px-4 py-3 border">{user.role}</td>
                 <td className="px-4 py-3 border flex gap-2">
                   <button 

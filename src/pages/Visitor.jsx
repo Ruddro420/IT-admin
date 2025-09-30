@@ -27,7 +27,7 @@ const Visitor = () => {
             .then((res) => res.json())
             .then((data) => {
                 setCourses(data);
-                toast.success('Courses loaded successfully');
+                // toast.success('Courses loaded successfully');
             })
             .catch((error) => {
                 toast.error('Error loading courses');
@@ -42,7 +42,7 @@ const Visitor = () => {
             .then((data) => {
                 setVisitors(data);
                 setFilteredVisitors(data);
-                toast.success('Visitors loaded successfully');
+                // toast.success('Visitors loaded successfully');
             })
             .catch((error) => {
                 toast.error('Error loading visitors');
@@ -365,9 +365,9 @@ const Visitor = () => {
                                     </td>
                                 </tr>
                             ) : (
-                                currentVisitors.map((v) => (
+                                currentVisitors.map((v,i) => (
                                     <tr key={v.id} className="hover:bg-gray-50">
-                                        <td className="px-6 py-4 text-sm text-gray-600">{v.id}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-600">{i+1}</td>
                                         <td className="px-6 py-4 text-sm text-gray-800">{v.name}</td>
                                         <td className="px-6 py-4 text-sm text-gray-800">{v.mobile}</td>
                                         <td className="px-6 py-4 text-sm text-gray-800">{v.course}</td>

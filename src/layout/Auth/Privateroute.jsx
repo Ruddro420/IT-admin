@@ -1,24 +1,39 @@
-/* eslint-disable prettier/prettier */
 import PropTypes from "prop-types";
-
-import { Navigate, useLocation } from "react-router";
-
-
+import { Navigate, useLocation, useMatch } from "react-router";
 
 const Privateroute = ({ children }) => {
-    const location = useLocation();
-    const user = localStorage.getItem('user');
+  const location = useLocation();
+  const user = JSON.parse(localStorage.getItem("user"));
 
-    // Directly return the result based on user authentication
-    if (user) {
-        return children;
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  // Hooks called at top-level
+  const isVisitorRoute = useMatch("/dashboard/visitor");
+  const isAdmissionRoute = useMatch("/dashboard/admission");
+  const isStudentDetailsRoute = useMatch("/dashboard/sdetails");
+  const isFeesRoute = useMatch("/dashboard/fees");
+
+  if (user.role === "Admin") {
+    return children; // Admin has full access
+  }
+
+  if (user.role === "Staff") {
+    const allowed = isVisitorRoute || isAdmissionRoute || isStudentDetailsRoute || isFeesRoute;
+    if (allowed) {
+      return children;
     } else {
-        return <Navigate to="/login" state={{ from: location }} replace />;
+      return <Navigate to="/dashboard/visitor" replace />;
     }
+  }
+
+  // Unknown role → redirect to login
+  return <Navigate to="/login" state={{ from: location }} replace />;
 };
 
 Privateroute.propTypes = {
-    children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Privateroute;

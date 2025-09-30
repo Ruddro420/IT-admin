@@ -21,9 +21,9 @@ import support from './support';
 
 const getMenuItems = (role) => {
   if (role === 'Admin') {
-    return { items: [dashboard, pages, utilities, support] };
+    return { items: [dashboard] };
   } else {
-    return { items: [dashboard, pages, support] };
+    return { items: [dashboard] };
   }
 };
 

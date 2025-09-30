@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // material-ui
@@ -61,7 +61,9 @@ export default function AuthLogin() {
         if (data && data.user) {
           localStorage.setItem('user', JSON.stringify(data?.user));
           toast.success('Login Successful');
-          navigate('/');
+          setTimeout(() => {
+            window.location.href = "/"; // reloads page
+          }, 500); // small delay so toast is visible
         } else {
           toast.error('Invalid email or password');
         }
@@ -88,7 +90,7 @@ export default function AuthLogin() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter email address"
                 fullWidth
-                // error={Boolean(touched.email && errors.email)}
+              // error={Boolean(touched.email && errors.email)}
               />
             </Stack>
           </Grid>

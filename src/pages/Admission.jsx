@@ -31,7 +31,7 @@ const Admission = () => {
       .then((res) => res.json())
       .then((data) => {
         setCourses(data);
-        if (typeof toast !== 'undefined') toast.success('Courses loaded successfully');
+        // i?f (typeof toast !== 'undefined') toast.success('Courses loaded successfully');
       })
       .catch((error) => {
         if (typeof toast !== 'undefined') toast.error('Error loading courses');

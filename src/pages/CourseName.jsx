@@ -21,7 +21,7 @@ const CourseName = () => {
       .then((data) => {
         setCourses(data);
         setTotalCourses(data.length);
-        toast.success('Courses loaded successfully');
+        // toast.success('Courses loaded successfully');
       })
       .catch((error) => {
         toast.error('Error loading courses');
@@ -205,7 +205,7 @@ const CourseName = () => {
           <tbody>
             {currentCourses.map((course, idx) => (
               <tr key={course.id} className={idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                <td className="px-4 py-3 border">{course.id}</td>
+                <td className="px-4 py-3 border">{idx + 1}</td>
                 <td className="px-4 py-3 border">{course.name}</td>
                 <td className="px-4 py-3 border">{course.fee}</td>
                 <td className="px-4 py-3 border flex gap-2">

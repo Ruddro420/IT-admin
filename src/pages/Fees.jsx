@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 const Fees = () => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
-  
+
   const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -45,15 +45,15 @@ const Fees = () => {
       })
       .then((studentData) => {
         // Calculate paid amount and due amount
-        const totalPaid = Array.isArray(studentData.fees) 
+        const totalPaid = Array.isArray(studentData.fees)
           ? studentData.fees.reduce((sum, fee) => sum + parseFloat(fee.amount || 0), 0)
           : 0;
-        
+
         const initialDue = parseFloat(studentData.due_amount) || 0;
-        
+
         // Calculate current due amount
         const currentDue = initialDue - totalPaid;
-        
+
         setSelectedStudent({
           ...studentData,
           paid: totalPaid,
@@ -85,7 +85,7 @@ const Fees = () => {
         s.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         s.mobile?.includes(searchTerm)
     );
-    
+
     if (student && student.std_id) {
       // Use the dedicated student API with std_id
       fetchStudentDetails(student.std_id);
@@ -114,7 +114,7 @@ const Fees = () => {
     }
 
     const feeAmount = parseFloat(newFee.amount);
-    
+
     // Check if the payment amount exceeds the due amount
     if (feeAmount > selectedStudent.dueAmount) {
       toast.error(`Payment amount exceeds due amount! Maximum allowed: ${selectedStudent.dueAmount} BDT`);
@@ -224,8 +224,8 @@ const Fees = () => {
   // Start editing fee
   const handleEditFee = (fee) => {
     setEditingFee(fee);
-    setNewFee({ 
-      amount: fee.amount.toString(), 
+    setNewFee({
+      amount: fee.amount.toString(),
       purpose: fee.purpose,
       payment_type: fee.payment_type || "cash"
     });
@@ -276,21 +276,162 @@ const Fees = () => {
 
           {/* Personal & Course Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
             <div>
+              <h3 className="text-lg font-medium mb-3">Personal Details</h3>
+              <div className="overflow-x-auto">
+                <table className="min-w-full border border-gray-200 rounded-lg">
+                  <tbody>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">ID</td>
+                      <td className="px-4 py-2 border">{selectedStudent.std_id}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">Name</td>
+                      <td className="px-4 py-2 border">{selectedStudent.full_name}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">Email</td>
+                      <td className="px-4 py-2 border">{selectedStudent.email}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">Mobile</td>
+                      <td className="px-4 py-2 border">{selectedStudent.mobile}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">DOB</td>
+                      <td className="px-4 py-2 border">{selectedStudent.dob}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">
+                        Present Address
+                      </td>
+                      <td className="px-4 py-2 border">
+                        {selectedStudent.present_address}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">
+                        Permanent Address
+                      </td>
+                      <td className="px-4 py-2 border">
+                        {selectedStudent.permanent_address}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">Guardian</td>
+                      <td className="px-4 py-2 border">{selectedStudent.guardian_name}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">
+                        Guardian Phone
+                      </td>
+                      <td className="px-4 py-2 border">
+                        {selectedStudent.guardian_phone}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* <div>
               <p><strong>Student ID:</strong> {selectedStudent.std_id}</p>
               <p><strong>Name:</strong> {selectedStudent.full_name}</p>
               <p><strong>Mobile:</strong> {selectedStudent.mobile}</p>
               <p><strong>Course:</strong> {selectedStudent.course}</p>
               <p><strong>Batch:</strong> {selectedStudent.batch_no}</p>
-            </div>
+            </div> */}
+
+
             <div>
-              <p><strong>Admission Fee:</strong> {selectedStudent.course_amount}৳</p>
-              <p><strong>Discount:</strong> {selectedStudent.discount_amount}৳</p>
-              <p><strong>Total Paid:</strong> {parseFloat(selectedStudent.paid) + parseFloat(selectedStudent.course_amount)}৳</p>
-              <p><strong className={selectedStudent.dueAmount > 0 ? "text-red-600" : "text-green-600"}>
-                Due Amount: {selectedStudent.dueAmount}৳
-              </strong></p>
-              <p><strong>Admission Date:</strong> {selectedStudent.admission_date}</p>
+              <h3 className="text-lg font-medium mb-3">Course Details</h3>
+              <div className="overflow-x-auto">
+                <table className="min-w-full border border-gray-200 rounded-lg">
+                  <tbody>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">Course</td>
+                      <td className="px-4 py-2 border">{selectedStudent.course}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">Batch</td>
+                      <td className="px-4 py-2 border">{selectedStudent.batch_no}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">
+                        Admission Date
+                      </td>
+                      <td className="px-4 py-2 border">{selectedStudent.admission_date}</td>
+                    </tr>
+                    {/* <tr>
+                                        <td className="px-4 py-2 border font-semibold">Course Fee</td>
+                                        <td className="px-4 py-2 border">
+                                            {courseFee ? `${courseFee} BDT` : "Loading..."}
+                                        </td>
+                                    </tr> */}
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">Discount</td>
+                      <td className="px-4 py-2 border">
+                        {selectedStudent.discount_amount} BDT
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">
+                        Admission Payment Type
+                      </td>
+                      <td className="px-4 py-2 border">{selectedStudent.payment_type}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">
+                        Total Paid
+                      </td>
+                      <td className="px-4 py-2 border">
+                        <strong>Total Paid:</strong> {parseFloat(selectedStudent.paid) + parseFloat(selectedStudent.course_amount)}৳
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-semibold">Due Amount</td>
+                      <td className="px-4 py-2 border text-red-600 font-semibold">
+                        <strong className={selectedStudent.dueAmount > 0 ? "text-red-600" : "text-green-600"}>
+                          Due Amount: {selectedStudent.dueAmount}৳
+                        </strong>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          {/* Admission Payment */}
+          <div className="mb-10">
+            <h3 className="text-lg font-medium mb-3">Admission Payment</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full border border-gray-200 rounded-lg">
+                <thead className="bg-gray-50">
+                  <tr>
+
+                    <th className="px-4 py-3 border text-left">Date</th>
+                    <th className="px-4 py-3 border text-left">Amount</th>
+                    <th className="px-4 py-3 border text-left">Purpose</th>
+                    <th className="px-4 py-3 border text-left">Payment Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+
+                    <td className="px-4 py-3 border">
+                      {selectedStudent.admission_date}
+                    </td>
+                    <td className="px-4 py-3 border">
+                      {selectedStudent.course_amount} BDT
+                    </td>
+                    <td className="px-4 py-3 border">
+                      Admission
+                    </td>
+                    <td className="px-4 py-3 border">{selectedStudent.payment_type}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
@@ -307,7 +448,7 @@ const Fees = () => {
                 </button>
               )}
             </div>
-            
+
             {selectedStudent.payments.length === 0 ? (
               <p className="text-gray-500">No payment records found.</p>
             ) : (
@@ -395,11 +536,10 @@ const Fees = () => {
                 <button
                   onClick={handleSubmitFee}
                   disabled={!editingFee && selectedStudent.dueAmount <= 0}
-                  className={`flex-1 px-5 py-3 rounded-lg cursor-pointer ${
-                    !editingFee && selectedStudent.dueAmount <= 0
-                      ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                      : "bg-green-500 text-white hover:bg-green-600"
-                  }`}
+                  className={`flex-1 px-5 py-3 rounded-lg cursor-pointer ${!editingFee && selectedStudent.dueAmount <= 0
+                    ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                    : "bg-green-500 text-white hover:bg-green-600"
+                    }`}
                 >
                   {editingFee ? "Update Fee" : "Add Fee"}
                 </button>

@@ -319,7 +319,7 @@ const StudentDetails = () => {
                         </td>
                         <td className="px-4 py-2 border flex gap-2">
                           <Link
-                            to={`/dashboard/sprofile/${s.id}`}
+                            to={`/dashboard/sprofile/${s.std_id}`}
                             className="px-2 py-1 bg-blue-500 text-white rounded cursor-pointer text-sm"
                           >
                             View

@@ -1,19 +1,18 @@
 // assets
 import { LoginOutlined, ProfileOutlined } from '@ant-design/icons';
 
-// icons
 const icons = {
   LoginOutlined,
   ProfileOutlined
 };
 
-// ==============================|| MENU ITEMS - EXTRA PAGES ||============================== //
+const user = JSON.parse(localStorage.getItem("user"));
 
-const pages = {
-  id: 'course',
-  title: 'Course Details',
-  type: 'group',
-  children: [
+// Define children
+let pagesChildren = [];
+
+if (user?.role === "Admin") {
+  pagesChildren = [
     {
       id: 'courseName',
       title: 'Course Name',
@@ -21,16 +20,16 @@ const pages = {
       url: '/dashboard/courseName',
       icon: icons.LoginOutlined,
       target: false
-    },
-    // {
-    //   id: 'register1',
-    //   title: 'Register',
-    //   type: 'item',
-    //   url: '/register',
-    //   icon: icons.ProfileOutlined,
-    //   target: true
-    // }
-  ]
+    }
+  ];
+}
+
+// Always export a group object, but with empty children for Staff
+const pages = {
+  id: 'course',
+  title: 'Course Details',
+  type: 'group',
+  children: pagesChildren, // empty array for Staff
 };
 
 export default pages;

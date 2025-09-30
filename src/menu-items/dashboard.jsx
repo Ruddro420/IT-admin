@@ -1,11 +1,10 @@
-
 // assets
 import {
   DashboardOutlined,
   UserOutlined,
   SolutionOutlined,
   TeamOutlined,
-  DollarOutlined
+  DollarOutlined, LoginOutlined ,FontSizeOutlined
 } from "@ant-design/icons";
 
 // icons
@@ -14,16 +13,46 @@ const icons = {
   UserOutlined,
   SolutionOutlined,
   TeamOutlined,
-  DollarOutlined
+  DollarOutlined, LoginOutlined ,FontSizeOutlined
 };
 
-// ==============================|| MENU ITEMS - DASHBOARD ||============================== //
+// Get current user role from localStorage
+const user = JSON.parse(localStorage.getItem("user"));
 
-const dashboard = {
-  id: "group-dashboard",
-  title: "Main",
-  type: "group",
-  children: [
+// Define menu items based on role
+let menuChildren = [];
+
+if (user?.role === "Staff") {
+  // Staff sees only Visitor
+  menuChildren = [
+    {
+      id: "visitor",
+      title: "Visitor",
+      type: "item",
+      url: "/dashboard/visitor",
+      icon: icons.UserOutlined,
+      breadcrumbs: false,
+    },
+     {
+      id: "admission",
+      title: "Admission",
+      type: "item",
+      url: "/dashboard/admission",
+      icon: icons.SolutionOutlined,
+      breadcrumbs: false,
+    },
+    {
+      id: "sdetails",
+      title: "Student Details",
+      type: "item",
+      url: "/dashboard/sdetails",
+      icon: icons.TeamOutlined,
+      breadcrumbs: false,
+    },
+  ];
+} else {
+  // Admin sees all menus
+  menuChildren = [
     {
       id: "dashboard",
       title: "Dashboard",
@@ -64,8 +93,29 @@ const dashboard = {
       icon: icons.DollarOutlined,
       breadcrumbs: false,
     },
-  ],
+    {
+      id: 'courseName',
+      title: 'Course Name',
+      type: 'item',
+      url: '/dashboard/courseName',
+      icon: icons.LoginOutlined,
+      target: false
+    },
+    {
+      id: 'users-details',
+      title: 'Users Details',
+      type: 'item',
+      url: '/dashboard/userDetails',
+      icon: icons.FontSizeOutlined
+    },
+  ];
+}
+
+const dashboard = {
+  id: "group-dashboard",
+  title: "Main",
+  type: "group",
+  children: menuChildren,
 };
 
 export default dashboard;
-

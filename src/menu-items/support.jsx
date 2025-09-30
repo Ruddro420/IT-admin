@@ -7,30 +7,44 @@ const icons = {
   QuestionOutlined
 };
 
-// ==============================|| MENU ITEMS - SAMPLE PAGE & DOCUMENTATION ||============================== //
+// Get current user role from localStorage
+const user = JSON.parse(localStorage.getItem("user"));
 
-const support = {
-  id: 'support',
-  title: 'Support',
-  type: 'group',
-  children: [
+// Define menu items based on role
+let supportChildren = [];
+
+if (user?.role === "Admin") {
+  // Admin sees all support items
+  supportChildren = [
     {
       id: 'support',
-      title: 'Support',
+      title: 'Account',
       type: 'item',
       url: '/dashboard/support',
       icon: icons.ChromeOutlined
     },
-    {
-      id: 'documentation',
-      title: 'Documentation',
-      type: 'item',
-      url: '#',
-      icon: icons.QuestionOutlined,
-      external: true,
-      target: true
-    }
-  ]
+    // Add other items for Admin here if needed
+    // {
+    //   id: 'documentation',
+    //   title: 'Documentation',
+    //   type: 'item',
+    //   url: '#',
+    //   icon: icons.QuestionOutlined,
+    //   external: true,
+    //   target: true
+    // }
+  ];
+} 
+// Staff sees nothing in this group
+// else if (user?.role === "Staff") {
+//   supportChildren = []; // hide all items
+// }
+
+const support = {
+  id: 'support',
+  title: 'Accounts',
+  type: 'group',
+  children: supportChildren,
 };
 
 export default support;
