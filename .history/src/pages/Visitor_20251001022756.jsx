@@ -258,7 +258,7 @@ const Visitor = () => {
                     <div className="flex gap-3">
                         <button
                             type="reset"
-                            className="cursor-pointer px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50"
+                            className="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50"
                             onClick={() => setFormData({ fullName: '', mobile: '', course: '' })}
                         >
                             Reset
