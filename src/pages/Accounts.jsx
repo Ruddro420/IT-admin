@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import AccountsReport from "../components/AccountsReport";
+import { Toaster, toast } from "react-hot-toast";
 
 const Accounts = () => {
   const [entries, setEntries] = useState([]);
@@ -27,17 +28,19 @@ const Accounts = () => {
     fetch(`${API_URL}/accounts`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("API Response:", data); // debug log
-        // Ensure we always store an array
+        console.log("API Response:", data);
         if (Array.isArray(data)) {
           setEntries(data);
         } else if (data && Array.isArray(data.data)) {
           setEntries(data.data);
         } else {
-          setEntries([]); // fallback if response is unexpected
+          setEntries([]);
         }
       })
-      .catch((err) => console.error("Fetch error:", err));
+      .catch((err) => {
+        console.error("Fetch error:", err);
+        toast.error("Failed to load accounts");
+      });
   }, []);
 
   const handleSubmit = async (e) => {
@@ -45,20 +48,21 @@ const Accounts = () => {
     if (editIndex !== null) {
       // Edit (PUT)
       const updatedEntry = { ...form };
-      const id = entries[editIndex].id;
+      const id = entries[editIndex]._id || entries[editIndex].id;
       try {
         await fetch(`${API_URL}/accounts/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(updatedEntry),
         });
-        // Update local state
         const updated = [...entries];
-        updated[editIndex] = { ...updatedEntry, id };
+        updated[editIndex] = { ...updatedEntry, _id: id };
         setEntries(updated);
         setEditIndex(null);
+        toast.success("Entry updated successfully");
       } catch (err) {
         console.error("Update error:", err);
+        toast.error("Failed to update entry");
       }
     } else {
       // Add (POST)
@@ -70,8 +74,10 @@ const Accounts = () => {
         });
         const newEntry = await res.json();
         setEntries((prev) => [...prev, newEntry]);
+        toast.success("Entry added successfully");
       } catch (err) {
         console.error("Add error:", err);
+        toast.error("Failed to add entry");
       }
     }
     setForm({ type: "Income", purpose: "", date: "", amount: "" });
@@ -79,12 +85,18 @@ const Accounts = () => {
 
   const handleDelete = async (index) => {
     const actualIndex = (currentPage - 1) * recordsPerPage + index;
-    const id = entries[actualIndex].id;
+    const id = entries[actualIndex]._id || entries[actualIndex].id;
     try {
-      await fetch(`${API_URL}/accounts${id}`, { method: "DELETE" });
-      setEntries(entries.filter((_, i) => i !== actualIndex));
+      const res = await fetch(`${API_URL}/accounts/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setEntries(entries.filter((_, i) => i !== actualIndex));
+        toast.success("Entry deleted successfully");
+      } else {
+        toast.error("Failed to delete entry");
+      }
     } catch (err) {
       console.error("Delete error:", err);
+      toast.error("Failed to delete entry");
     }
   };
 
@@ -104,6 +116,7 @@ const Accounts = () => {
 
   return (
     <div className="p-6 w-full mx-auto">
+      <Toaster position="top-right" />
       <h1 className="text-2xl font-bold mb-6">Accounts</h1>
 
       {/* Form */}
@@ -255,7 +268,6 @@ const Accounts = () => {
       <div className="mt-10">
         <AccountsReport />
       </div>
-      
     </div>
   );
 };
