@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { useState, useEffect } from "react";
 import AccountsReport from "../components/AccountsReport";
-import { Toaster, toast } from "react-hot-toast";
+import {  toast } from "react-hot-toast";
 
 const Accounts = () => {
   const [entries, setEntries] = useState([]);
