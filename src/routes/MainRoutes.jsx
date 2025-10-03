@@ -3,6 +3,7 @@ import { lazy } from 'react';
 import Loadable from 'components/Loadable';
 import DashboardLayout from 'layout/Dashboard';
 import Privateroute from 'layout/Auth/Privateroute';
+import Accounts from '../pages/Accounts';
 
 // Pages
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard/default')));
@@ -41,6 +42,7 @@ if (user?.role === 'Staff') {
     { path: 'courseName', element: <CourseName /> },
     { path: 'userDetails', element: <UserDetails /> },
     { path: 'support', element: <Support /> },
+    { path: 'accounts', element: <Accounts /> },
   ];
 }
 

@@ -4,7 +4,7 @@ import {
   UserOutlined,
   SolutionOutlined,
   TeamOutlined,
-  DollarOutlined, LoginOutlined ,FontSizeOutlined
+  DollarOutlined, LoginOutlined ,FontSizeOutlined , QuestionCircleOutlined
 } from "@ant-design/icons";
 
 // icons
@@ -13,7 +13,7 @@ const icons = {
   UserOutlined,
   SolutionOutlined,
   TeamOutlined,
-  DollarOutlined, LoginOutlined ,FontSizeOutlined
+  DollarOutlined, LoginOutlined ,FontSizeOutlined,QuestionCircleOutlined
 };
 
 // Get current user role from localStorage
@@ -107,6 +107,13 @@ if (user?.role === "Staff") {
       type: 'item',
       url: '/dashboard/userDetails',
       icon: icons.FontSizeOutlined
+    },
+    {
+      id: 'accounts',
+      title: 'Accounts',
+      type: 'item',
+      url: '/dashboard/accounts',
+      icon: icons.QuestionCircleOutlined
     },
   ];
 }
