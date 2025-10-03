@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState } from "react";
 import { jsPDF } from "jspdf";        // <--- named import is important for many bundlers (Vite/ESM)
 import "jspdf-autotable";            // patches jsPDF with autoTable

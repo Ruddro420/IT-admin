@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+/* eslint-disable prettier/prettier */
+import  { useState, useEffect } from "react";
+import AccountsReport from "../components/AccountsReport";
 
 const Accounts = () => {
   const [entries, setEntries] = useState([]);
@@ -18,35 +20,86 @@ const Accounts = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const API_URL = import.meta.env.VITE_BASE_URL;
+
+  // Fetch data from API on mount
+  useEffect(() => {
+    fetch(`${API_URL}/accounts`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("API Response:", data); // debug log
+        // Ensure we always store an array
+        if (Array.isArray(data)) {
+          setEntries(data);
+        } else if (data && Array.isArray(data.data)) {
+          setEntries(data.data);
+        } else {
+          setEntries([]); // fallback if response is unexpected
+        }
+      })
+      .catch((err) => console.error("Fetch error:", err));
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (editIndex !== null) {
-      const updated = [...entries];
-      updated[editIndex] = form;
-      setEntries(updated);
-      setEditIndex(null);
+      // Edit (PUT)
+      const updatedEntry = { ...form };
+      const id = entries[editIndex].id;
+      try {
+        await fetch(`${API_URL}/accounts/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedEntry),
+        });
+        // Update local state
+        const updated = [...entries];
+        updated[editIndex] = { ...updatedEntry, id };
+        setEntries(updated);
+        setEditIndex(null);
+      } catch (err) {
+        console.error("Update error:", err);
+      }
     } else {
-      setEntries([...entries, form]);
+      // Add (POST)
+      try {
+        const res = await fetch(`${API_URL}/accounts`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        const newEntry = await res.json();
+        setEntries((prev) => [...prev, newEntry]);
+      } catch (err) {
+        console.error("Add error:", err);
+      }
     }
     setForm({ type: "Income", purpose: "", date: "", amount: "" });
   };
 
+  const handleDelete = async (index) => {
+    const actualIndex = (currentPage - 1) * recordsPerPage + index;
+    const id = entries[actualIndex].id;
+    try {
+      await fetch(`${API_URL}/accounts${id}`, { method: "DELETE" });
+      setEntries(entries.filter((_, i) => i !== actualIndex));
+    } catch (err) {
+      console.error("Delete error:", err);
+    }
+  };
+
   const handleEdit = (index) => {
-    // Adjust index with pagination
     const actualIndex = (currentPage - 1) * recordsPerPage + index;
     setForm(entries[actualIndex]);
     setEditIndex(actualIndex);
   };
 
-  const handleDelete = (index) => {
-    const actualIndex = (currentPage - 1) * recordsPerPage + index;
-    setEntries(entries.filter((_, i) => i !== actualIndex));
-  };
-
   // Pagination logic
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = entries.slice(indexOfFirstRecord, indexOfLastRecord);
+  const currentRecords = Array.isArray(entries)
+    ? entries.slice(indexOfFirstRecord, indexOfLastRecord)
+    : [];
   const totalPages = Math.ceil(entries.length / recordsPerPage);
 
   return (
@@ -197,6 +250,12 @@ const Accounts = () => {
           </button>
         </div>
       )}
+
+      {/* Report Component */}
+      <div className="mt-10">
+        <AccountsReport />
+      </div>
+      
     </div>
   );
 };
