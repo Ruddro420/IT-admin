@@ -258,13 +258,13 @@ const Visitor = () => {
                     <div className="flex gap-3">
                         <button
                             type="reset"
-                            className="cursor-pointer px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50"
+                            className="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50"
                             onClick={() => setFormData({ fullName: '', mobile: '', course: '' })}
                         >
                             Reset
                         </button>
-                        <button type="submit" className="cursor-pointer px-5 py-2 rounded-lg bg-indigo-600 text-white font-medium shadow hover:bg-indigo-700">
-                            Submit Visitors
+                        <button type="submit" className="px-5 py-2 rounded-lg bg-indigo-600 text-white font-medium shadow hover:bg-indigo-700">
+                            Submit Application
                         </button>
                     </div>
                 </footer>
