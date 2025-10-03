@@ -116,7 +116,6 @@ const Accounts = () => {
 
   return (
     <div className="p-6 w-full mx-auto">
-      <Toaster position="top-right" />
       <h1 className="text-2xl font-bold mb-6">Accounts</h1>
 
       {/* Form */}
