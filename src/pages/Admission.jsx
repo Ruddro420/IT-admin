@@ -365,7 +365,7 @@ const Admission = () => {
                 name="paymentType"
                 className="mt-1 block w-full rounded-lg border-gray-200 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500 p-3"
               >
-                <option value="Cash">Select Type</option>
+                <option value="">Select Type</option>
                 <option value="Cash">Cash</option>
                 <option value="Bkash">Bkash</option>
                 <option value="Other">Other</option>
