@@ -316,7 +316,7 @@ const AlumniDetails = () => {
                   <option value="">Select a course</option>
                   {courses.map((course) => (
                     <option key={course.id} value={course.name}>
-                      {course.name} - {course.fee}৳
+                      {course.name}
                     </option>
                   ))}
                 </select>

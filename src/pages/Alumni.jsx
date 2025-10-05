@@ -178,9 +178,9 @@ const Alumni = () => {
 
             {/* Address */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">Address *</label>
+              <label className="block text-sm font-medium text-gray-700">Address</label>
               <textarea
-                required
+                // required
                 name="address"
                 rows="2"
                 value={formData.address}
@@ -231,7 +231,7 @@ const Alumni = () => {
                 <option value="">Select a course</option>
                 {courses.map((course) => (
                   <option key={course.id} value={course.name}>
-                    {course.name} - {course.fee}৳
+                    {course.name}
                   </option>
                 ))}
               </select>
@@ -311,9 +311,9 @@ const Alumni = () => {
 
             {/* Job */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">Job *</label>
+              <label className="block text-sm font-medium text-gray-700">Job</label>
               <select
-                required
+                // required
                 name="job"
                 value={formData.job}
                 onChange={handleChange}
