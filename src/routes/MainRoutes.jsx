@@ -4,6 +4,8 @@ import Loadable from 'components/Loadable';
 import DashboardLayout from 'layout/Dashboard';
 import Privateroute from 'layout/Auth/Privateroute';
 import Accounts from '../pages/Accounts';
+import Alumni from '../pages/Alumni';
+import AlumniDetails from '../pages/AlumniDetails';
 
 // Pages
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard/default')));
@@ -29,6 +31,8 @@ if (user?.role === 'Staff') {
     { path: 'sdetails', element: <StudentDetails /> },
     { path: 'sprofile/:id', element: <StudentProfile /> },
     { path: 'fees', element: <Fees /> },
+    { path: 'alumni', element: <Alumni /> },
+     { path: 'alumniDetails', element: <AlumniDetails /> },
   ];
 } else {
   // Admin → all pages
@@ -43,6 +47,8 @@ if (user?.role === 'Staff') {
     { path: 'userDetails', element: <UserDetails /> },
     { path: 'support', element: <Support /> },
     { path: 'accounts', element: <Accounts /> },
+    { path: 'alumni', element: <Alumni /> },
+    { path: 'alumniDetails', element: <AlumniDetails /> },
   ];
 }
 
