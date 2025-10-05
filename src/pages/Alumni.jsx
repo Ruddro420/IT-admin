@@ -1,9 +1,11 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import  { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router';
 
 const Alumni = () => {
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  const [courses, setCourses] = useState([]);
   const [formData, setFormData] = useState({
     fullName: '',
     mobile: '',
@@ -21,16 +23,83 @@ const Alumni = () => {
     job: ''
   });
 
+
+  const fetchCourses = useCallback(() => {
+    fetch(`${baseUrl}/courses`)
+      .then((res) => res.json())
+      .then((data) => setCourses(data))
+      .catch((err) => console.error("Error fetching courses:", err));
+  }, [baseUrl]);
+
+  useEffect(() => {
+    fetchCourses();
+  }, [fetchCourses]);
+
+
+
+
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
+
+
+
+
+    e.preventDefault();
+
+
+      const newAlumni = {
+        fullName: formData.fullName,
+        mobile: formData.mobile,
+        altNumber: formData.altNumber,
+        email: formData.email,
+        address: formData.address,
+        dob: formData.dob,
+        gender: formData.gender,
+        course: formData.course,
+        batchNo: formData.batchNo,
+        admissionDate: new Date().toISOString().split('T')[0],
+        earning: formData.earning,
+        finishedCourse: formData.finishedCourse,
+        earningAmount: formData.earningAmount,
+        job: formData.job,
+      };
+
+      console.log(newAlumni);
+
+      //add visitor to database (mocked here)
+      // setVisitors([...visitors, newVisitor]);
+      fetch(`${baseUrl}/alumni`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newAlumni)
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log('Alumni added:', data);
+          toast.success('Added successfully');
+        })
+        .catch((error) => {
+          toast.error('Error Adding Alumni');
+          console.error('Error adding Alumni:', error);
+        });
+
+
+
+
+
+
+
 
     // Example of submission (mock)
-    toast.success('Alumni data submitted successfully');
+    // toast.success('Alumni data submitted successfully');
   };
 
   return (
@@ -150,20 +219,24 @@ const Alumni = () => {
                 <option value="Other">Other</option>
               </select>
             </div>
-
             {/* Course */}
             <div>
               <label className="block text-sm font-medium text-gray-700">Course *</label>
-              <input
-                required
-                type="text"
+              <select
                 name="course"
                 value={formData.course}
                 onChange={handleChange}
-                placeholder="e.g. Web Development"
                 className="mt-1 block w-full rounded-lg border-gray-200 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500 p-3"
-              />
+              >
+                <option value="">Select a course</option>
+                {courses.map((course) => (
+                  <option key={course.id} value={course.name}>
+                    {course.name} - {course.fee}৳
+                  </option>
+                ))}
+              </select>
             </div>
+
 
             {/* Batch No */}
             <div>
@@ -260,13 +333,13 @@ const Alumni = () => {
             <div className="flex gap-3">
               <button
                 type="reset"
-                className="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50"
+                className="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 cursor-pointer"
               >
                 Reset
               </button>
               <button
                 type="submit"
-                className="px-5 py-2 rounded-lg bg-indigo-600 text-white font-medium shadow hover:bg-indigo-700"
+                className="px-5 py-2 rounded-lg bg-indigo-600 text-white font-medium shadow hover:bg-indigo-700 cursor-pointer"
               >
                 Submit Information
               </button>

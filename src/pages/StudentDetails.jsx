@@ -379,31 +379,33 @@ export default StudentDetails;
 
 
 const EditStudentModal = ({ student, isOpen, onClose, onUpdate }) => {
-  const baseUrl = import.meta.env.VITE_BASE_URL;
-  const [formData, setFormData] = useState({
-    fullName: student?.full_name || "",
-    mobile: student?.mobile || "",
-    altNumber: student?.alt_number || "",
-    email: student?.email || "",
-    presentAddress: student?.present_address || "",
-    permanentAddress: student?.permanent_address || "",
-    dob: student?.dob || student?.date_of_birth || "",
-    gender: student?.gender || "",
-    batchNo: student?.batch_no || "",
-    nid: student?.nid || "",
-    date: student?.date || student?.admission_date || "",
-    guardianName: student?.guardian_name || "",
-    guardianPhone: student?.guardian_phone || "",
-    courseAmount: student?.course_amount || "",
-    discountAmount: student?.discount_amount || "",
-    paymentType: student?.payment_type || "",
-    dueAmount: student?.due_amount || "",
-    course: student?.course || "",
-    // add other fields as needed
-  });
-  const [courses, setCourses] = useState([]);
+    const baseUrl = import.meta.env.VITE_BASE_URL;
 
-  // Prefill data whenever student changes
+  const [courses, setCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+
+  const [formData, setFormData] = useState({
+    fullName: "",
+    mobile: "",
+    altNumber: "",
+    email: "",
+    presentAddress: "",
+    permanentAddress: "",
+    dob: "",
+    gender: "",
+    batchNo: "",
+    nid: "",
+    date: "",
+    guardianName: "",
+    guardianPhone: "",
+    courseAmount: "",
+    discountAmount: "",
+    paymentType: "",
+    dueAmount: "",
+    course: "",
+  });
+
+  // Prefill form when editing an existing student
   useEffect(() => {
     if (student) {
       setFormData({
@@ -425,7 +427,6 @@ const EditStudentModal = ({ student, isOpen, onClose, onUpdate }) => {
         paymentType: student.payment_type || "",
         dueAmount: student.due_amount || "",
         course: student.course || "",
-        // add other fields as needed
       });
     }
   }, [student]);
@@ -435,21 +436,42 @@ const EditStudentModal = ({ student, isOpen, onClose, onUpdate }) => {
     fetch(`${baseUrl}/courses`)
       .then((res) => res.json())
       .then((data) => setCourses(data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("Error fetching courses:", err));
   }, [baseUrl]);
 
   useEffect(() => {
     fetchCourses();
   }, [fetchCourses]);
 
+  // Set selected course whenever the course name changes
+  useEffect(() => {
+    if (formData.course) {
+      const found = courses.find((c) => c.name === formData.course);
+      setSelectedCourse(found || null);
+    }
+  }, [formData.course, courses]);
+
+  // Auto-calculate Due Amount (same logic as Admission)
+  useEffect(() => {
+    if (selectedCourse && formData.courseAmount !== "" && formData.discountAmount !== "") {
+      const due =
+        parseInt(selectedCourse.fee || 0) -
+        (parseInt(formData.courseAmount || 0) + parseInt(formData.discountAmount || 0));
+      setFormData((prev) => ({ ...prev, dueAmount: due }));
+    } else {
+      setFormData((prev) => ({ ...prev, dueAmount: 0 }));
+    }
+  }, [selectedCourse, formData.courseAmount, formData.discountAmount]);
+
+  // Handle Input Changes
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // Submit Updated Data
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Map camelCase formData to snake_case for backend
     const mappedData = {
       full_name: formData.fullName,
       mobile: formData.mobile,
@@ -469,18 +491,17 @@ const EditStudentModal = ({ student, isOpen, onClose, onUpdate }) => {
       payment_type: formData.paymentType,
       due_amount: formData.dueAmount,
       course: formData.course,
-      // add other fields as needed
     };
 
     fetch(`${baseUrl}/admissions/${student.id}`, {
-      method: "PUT", // Update existing student
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(mappedData)
+      body: JSON.stringify(mappedData),
     })
       .then((res) => res.json())
       .then((data) => {
         toast.success("Student updated successfully!");
-        onUpdate(data); // update parent state
+        onUpdate(data);
         onClose();
       })
       .catch((err) => {
@@ -574,10 +595,21 @@ const EditStudentModal = ({ student, isOpen, onClose, onUpdate }) => {
           <label className="block text-sm font-medium mb-1">NID
             <input type="text" name="nid" value={formData.nid || ""} onChange={handleChange} placeholder="NID" className="p-2 border rounded w-full"/>
           </label>
-          <label className="block text-sm font-medium mb-1">Course
-            <select name="course" value={formData.course || ""} onChange={handleChange} className="p-2 border rounded w-full">
+                {/* Course */}
+          <label className="block text-sm font-medium mb-1">
+            Course
+            <select
+              name="course"
+              value={formData.course}
+              onChange={handleChange}
+              className="p-2 border rounded w-full"
+            >
               <option value="">Select Course</option>
-              {courses.map((c) => <option key={c.id} value={c.name}>{c.name}</option>)}
+              {courses.map((c) => (
+                <option key={c.id} value={c.name}>
+                  {c.name} - {c.fee}৳
+                </option>
+              ))}
             </select>
           </label>
           <label className="block text-sm font-medium mb-1">Batch No
@@ -592,11 +624,26 @@ const EditStudentModal = ({ student, isOpen, onClose, onUpdate }) => {
           <label className="block text-sm font-medium mb-1">Guardian Phone
             <input type="tel" name="guardianPhone" value={formData.guardianPhone || ""} onChange={handleChange} placeholder="Guardian Phone" className="p-2 border rounded w-full"/>
           </label>
-          <label className="block text-sm font-medium mb-1">Course Amount
-            <input type="number" name="courseAmount" value={formData.courseAmount || ""} onChange={handleChange} placeholder="Course Amount" className="p-2 border rounded w-full"/>
+          {/* Payment fields */}
+          <label className="block text-sm font-medium mb-1">
+            Course Amount
+            <input
+              type="number"
+              name="courseAmount"
+              value={formData.courseAmount}
+              onChange={handleChange}
+              className="p-2 border rounded w-full"
+            />
           </label>
-          <label className="block text-sm font-medium mb-1">Discount
-            <input type="number" name="discountAmount" value={formData.discountAmount || ""} onChange={handleChange} placeholder="Discount" className="p-2 border rounded w-full"/>
+           <label className="block text-sm font-medium mb-1">
+            Discount Amount
+            <input
+              type="number"
+              name="discountAmount"
+              value={formData.discountAmount}
+              onChange={handleChange}
+              className="p-2 border rounded w-full"
+            />
           </label>
           <label className="block text-sm font-medium mb-1">Payment Type
             <select name="paymentType" value={formData.paymentType || ""} onChange={handleChange} className="p-2 border rounded w-full">
@@ -606,8 +653,15 @@ const EditStudentModal = ({ student, isOpen, onClose, onUpdate }) => {
               <option value="Other">Other</option>
             </select>
           </label>
-          <label className="block text-sm font-medium mb-1">Due Amount
-            <input type="number" name="dueAmount" value={formData.dueAmount || ""} onChange={handleChange} placeholder="Due Amount" className="p-2 border rounded w-full"/>
+           <label className="block text-sm font-medium mb-1">
+            Due Amount
+            <input
+              type="number"
+              name="dueAmount"
+              value={formData.dueAmount}
+              readOnly
+              className="p-2 border rounded w-full bg-gray-100"
+            />
           </label>
           <div className="col-span-1 md:col-span-3 flex justify-end gap-2 mt-4">
             <button type="button" onClick={onClose} className="px-4 py-2 border rounded bg-gray-200 hover:bg-gray-300 cursor-pointer">Cancel</button>
