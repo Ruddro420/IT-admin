@@ -86,6 +86,14 @@ if (user?.role === "Staff") {
       breadcrumbs: false,
     },
     {
+      id: "alumni",
+      title: "Alumni Students",
+      type: "item",
+      url: "/dashboard/alumni",
+      icon: icons.TeamOutlined,
+      breadcrumbs: false,
+    },
+    {
       id: "fees",
       title: "Fees",
       type: "item",
