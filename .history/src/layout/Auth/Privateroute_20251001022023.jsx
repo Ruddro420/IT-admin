@@ -14,15 +14,13 @@ const Privateroute = ({ children }) => {
   const isAdmissionRoute = useMatch("/dashboard/admission");
   const isStudentDetailsRoute = useMatch("/dashboard/sdetails");
   const isFeesRoute = useMatch("/dashboard/fees");
-  const isAlumni = useMatch("/dashboard/alumni");
-  const isAlumniDetails = useMatch("/dashboard/alumniDetails");
 
   if (user.role === "Admin") {
     return children; // Admin has full access
   }
 
   if (user.role === "Staff") {
-    const allowed = isVisitorRoute || isAdmissionRoute || isStudentDetailsRoute || isFeesRoute || isAlumni || isAlumniDetails;
+    const allowed = isVisitorRoute || isAdmissionRoute || isStudentDetailsRoute || isFeesRoute;
     if (allowed) {
       return children;
     } else {

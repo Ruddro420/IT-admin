@@ -22,7 +22,7 @@ const Privateroute = ({ children }) => {
   }
 
   if (user.role === "Staff") {
-    const allowed = isVisitorRoute || isAdmissionRoute || isStudentDetailsRoute || isFeesRoute || isAlumni || isAlumniDetails;
+    const allowed = isVisitorRoute || isAdmissionRoute || isStudentDetailsRoute || isFeesRoute || isAlumni;
     if (allowed) {
       return children;
     } else {

@@ -49,22 +49,6 @@ if (user?.role === "Staff") {
       icon: icons.TeamOutlined,
       breadcrumbs: false,
     },
-     {
-      id: "fees",
-      title: "Fees",
-      type: "item",
-      url: "/dashboard/fees",
-      icon: icons.DollarOutlined,
-      breadcrumbs: false,
-    },
-    {
-      id: "alumni",
-      title: "Alumni Students",
-      type: "item",
-      url: "/dashboard/alumni",
-      icon: icons.TeamOutlined,
-      breadcrumbs: false,
-    },
   ];
 } else {
   // Admin sees all menus
